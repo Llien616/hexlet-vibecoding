@@ -3,10 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <title>Метрика — калькулятор ИМТ и дневной нормы калорий</title>
   <meta name="description" content="Рассчитайте индекс массы тела и дневную норму калорий по формуле Миффлина — Сан Жеора. Без регистрации, данные остаются в браузере.">
   <meta name="theme-color" content="#E9E6EF">
+
+  <!-- Тема применяется до первой отрисовки, чтобы не было вспышки -->
+  <script>
+    (() => {
+      const key = "metric-theme";
+      let saved = null;
+      try {
+        saved = localStorage.getItem(key);
+      } catch (error) {
+        /* Хранилище может быть недоступно */
+      }
+      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved === "dark" || saved === "light" ? saved : systemDark ? "dark" : "light";
+      document.documentElement.dataset.theme = theme;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", theme === "dark" ? "#0F0D14" : "#E9E6EF");
+    })();
+  </script>
 
   <!-- Превью для мессенджеров и соцсетей -->
   <meta property="og:type" content="website">
@@ -43,12 +61,24 @@
         </span>
         Метрика
       </a>
-      <nav class="topbar__nav" aria-label="Навигация">
-        <a href="#method">Методика</a>
-        <a class="topbar__gh" href="https://github.com/Llien616/hexlet-vibecoding" target="_blank" rel="noopener">
-          GitHub <span aria-hidden="true">↗</span>
-        </a>
-      </nav>
+      <div class="topbar__actions">
+        <nav class="topbar__nav" aria-label="Навигация">
+          <a href="#method">Методика</a>
+          <a class="topbar__gh" href="https://github.com/Llien616/hexlet-vibecoding" target="_blank" rel="noopener">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Переключить тему" title="Переключить тему">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+        <span class="sr-only" id="theme-status" aria-live="polite"></span>
+      </div>
     </div>
   </header>
 
