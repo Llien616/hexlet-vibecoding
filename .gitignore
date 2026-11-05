@@ -1,0 +1,9 @@
+# Рабочие файлы
+.deepcode/
+.shots/
+.tmp-server.js
+node_modules/
+
+# ОС
+.DS_Store
+Thumbs.db

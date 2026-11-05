@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Метрика — калькулятор ИМТ и дневной нормы калорий</title>
+  <meta name="description" content="Рассчитайте индекс массы тела и дневную норму калорий по формуле Миффлина — Сан Жеора. Без регистрации, данные остаются в браузере.">
+  <meta name="theme-color" content="#E9E6EF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23171320'/%3E%3Crect x='7' y='14' width='18' height='4' rx='2' fill='%23FF5C2E'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Golos+Text:wght@400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#calc-form">Перейти к калькулятору</a>
+
+  <header class="topbar">
+    <div class="shell topbar__inner">
+      <a class="brand" href="#top" aria-label="Метрика — на главную">
+        <span class="brand__mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+        Метрика
+      </a>
+      <nav class="topbar__nav" aria-label="Навигация">
+        <a href="#method">Методика</a>
+        <a class="topbar__gh" href="https://github.com/Llien616/hexlet-vibecoding" target="_blank" rel="noopener">
+          GitHub <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="shell">
+      <section class="hero">
+        <div class="hero__lead">
+          <p class="eyebrow reveal" style="--delay: 0ms">Калькулятор · ИМТ и калории</p>
+          <h1 class="reveal" style="--delay: 60ms">Где вы<br>на шкале<span class="hero__dot">.</span></h1>
+        </div>
+        <div class="hero__aside reveal" style="--delay: 140ms">
+          <p class="lede">Индекс массы тела и дневная норма калорий — по вашим параметрам, без таблиц и приложений.</p>
+          <p class="micro">Расчёт обновляется на лету · данные не покидают браузер</p>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <form class="panel form reveal" id="calc-form" style="--delay: 200ms" novalidate>
+          <div class="panel__head">
+            <span class="panel__num">01</span>
+            <h2 class="panel__title">Ваши параметры</h2>
+            <button class="linkbtn" type="button" id="clear-btn">Очистить</button>
+          </div>
+
+          <fieldset class="choice">
+            <legend class="label">Пол</legend>
+            <div class="segmented segmented--2">
+              <label>
+                <input type="radio" name="sex" value="female" checked>
+                <span>Женщина</span>
+              </label>
+              <label>
+                <input type="radio" name="sex" value="male">
+                <span>Мужчина</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field-grid">
+            <div class="field" id="field-age">
+              <label class="label" for="age">Возраст</label>
+              <div class="field__control">
+                <input id="age" name="age" type="text" inputmode="numeric" value="30" autocomplete="off" aria-describedby="age-error">
+                <span class="field__unit">лет</span>
+              </div>
+              <p class="field__error" id="age-error"></p>
+            </div>
+
+            <div class="field" id="field-height">
+              <label class="label" for="height">Рост</label>
+              <div class="field__control">
+                <input id="height" name="height" type="text" inputmode="decimal" value="170" autocomplete="off" aria-describedby="height-error">
+                <span class="field__unit">см</span>
+              </div>
+              <p class="field__error" id="height-error"></p>
+            </div>
+
+            <div class="field" id="field-weight">
+              <label class="label" for="weight">Вес</label>
+              <div class="field__control">
+                <input id="weight" name="weight" type="text" inputmode="decimal" value="65" autocomplete="off" aria-describedby="weight-error">
+                <span class="field__unit">кг</span>
+              </div>
+              <p class="field__error" id="weight-error"></p>
+            </div>
+          </div>
+
+          <fieldset class="choice">
+            <legend class="label">Активность в течение недели</legend>
+            <div class="activity-list">
+              <label class="activity">
+                <input type="radio" name="activity" value="1.2">
+                <span class="activity__copy">
+                  <span class="activity__name">Минимальная</span>
+                  <span class="activity__hint">Сидячая работа, без тренировок</span>
+                </span>
+                <span class="activity__factor">×1,2</span>
+              </label>
+              <label class="activity">
+                <input type="radio" name="activity" value="1.375">
+                <span class="activity__copy">
+                  <span class="activity__name">Низкая</span>
+                  <span class="activity__hint">1–2 тренировки в неделю</span>
+                </span>
+                <span class="activity__factor">×1,375</span>
+              </label>
+              <label class="activity">
+                <input type="radio" name="activity" value="1.55" checked>
+                <span class="activity__copy">
+                  <span class="activity__name">Средняя</span>
+                  <span class="activity__hint">3–4 тренировки в неделю</span>
+                </span>
+                <span class="activity__factor">×1,55</span>
+              </label>
+              <label class="activity">
+                <input type="radio" name="activity" value="1.725">
+                <span class="activity__copy">
+                  <span class="activity__name">Высокая</span>
+                  <span class="activity__hint">5–6 тренировок в неделю</span>
+                </span>
+                <span class="activity__factor">×1,725</span>
+              </label>
+              <label class="activity">
+                <input type="radio" name="activity" value="1.9">
+                <span class="activity__copy">
+                  <span class="activity__name">Очень высокая</span>
+                  <span class="activity__hint">Физическая работа или две тренировки в день</span>
+                </span>
+                <span class="activity__factor">×1,9</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice choice--last">
+            <legend class="label">Цель</legend>
+            <div class="segmented segmented--3">
+              <label>
+                <input type="radio" name="goal" value="maintain" checked>
+                <span>Держу вес</span>
+              </label>
+              <label>
+                <input type="radio" name="goal" value="lose">
+                <span>Худею</span>
+              </label>
+              <label>
+                <input type="radio" name="goal" value="gain">
+                <span>Набираю</span>
+              </label>
+            </div>
+          </fieldset>
+        </form>
+
+        <section class="panel result reveal" id="result" style="--delay: 260ms" aria-labelledby="result-title">
+          <div class="panel__head panel__head--dark">
+            <span class="panel__num">02</span>
+            <h2 class="panel__title" id="result-title">Ваш результат</h2>
+            <span class="result__ref" aria-hidden="true">ИМТ · ВОЗ</span>
+          </div>
+
+          <noscript>
+            <p class="noscript">Для расчёта включите JavaScript — ниже показан пример.</p>
+          </noscript>
+
+          <div class="bmi">
+            <p class="result__label">Индекс массы тела</p>
+            <div class="bmi__readout">
+              <span class="bmi__value" id="bmi-value">22,5</span>
+              <span class="bmi__unit">кг/м²</span>
+              <span class="bmi__badge" id="bmi-badge" style="--badge: #3FC2AC">Норма</span>
+            </div>
+
+            <div class="tape" aria-hidden="true">
+              <div class="tape__bands">
+                <div class="tape__zone tape__zone--under" style="flex: 4.5">Недовес</div>
+                <div class="tape__zone tape__zone--normal" style="flex: 6.5">Норма</div>
+                <div class="tape__zone tape__zone--over" style="flex: 5">Избыток</div>
+                <div class="tape__zone tape__zone--obese" style="flex: 15">Ожирение</div>
+              </div>
+              <div class="tape__ticks" id="tape-ticks"></div>
+              <div class="tape__labels" id="tape-labels"></div>
+              <div class="tape__marker" id="tape-marker">
+                <span class="tape__flag" id="tape-flag">22,5</span>
+              </div>
+            </div>
+
+            <div class="tape__meta">
+              <div>
+                <span class="meta__label">Здоровый вес при вашем росте</span>
+                <span class="meta__value" id="healthy-range">53,5–72,0 кг</span>
+              </div>
+              <div>
+                <span class="meta__label">До нормы</span>
+                <span class="meta__value" id="to-normal">уже в норме</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calories">
+            <div class="calories__head">
+              <p class="result__label">Дневная норма калорий</p>
+              <span class="calories__goal" id="goal-note">поддержание веса</span>
+            </div>
+            <p class="calories__value">
+              <span id="kcal-value">2 172</span>
+              <span class="calories__unit">ккал / день</span>
+            </p>
+            <p class="calories__warning" id="kcal-warning" hidden></p>
+
+            <dl class="breakdown">
+              <div>
+                <dt>Базовый обмен</dt>
+                <dd id="bmr-value">1 402 ккал</dd>
+              </div>
+              <div>
+                <dt>С учётом активности</dt>
+                <dd id="tdee-value">2 172 ккал</dd>
+              </div>
+              <div>
+                <dt>Разница с расходом</dt>
+                <dd id="delta-value">0 ккал</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="macros">
+            <div class="macros__head">
+              <p class="result__label">Белки · жиры · углеводы</p>
+              <span class="macros__ratio">30 / 30 / 40</span>
+            </div>
+            <div class="macros__grid">
+              <div class="macro">
+                <span class="macro__name">Белки</span>
+                <span class="macro__value"><span id="protein-value">163</span><span class="macro__unit">г</span></span>
+              </div>
+              <div class="macro">
+                <span class="macro__name">Жиры</span>
+                <span class="macro__value"><span id="fat-value">72</span><span class="macro__unit">г</span></span>
+              </div>
+              <div class="macro">
+                <span class="macro__name">Углеводы</span>
+                <span class="macro__value"><span id="carbs-value">217</span><span class="macro__unit">г</span></span>
+              </div>
+            </div>
+          </div>
+
+          <p class="result__foot">Для взрослых 18+. ИМТ не учитывает состав тела.</p>
+          <p class="sr-only" id="live" aria-live="polite"></p>
+        </section>
+      </div>
+
+      <section class="method" id="method" aria-labelledby="method-title">
+        <div class="method__head">
+          <h2 class="section-title" id="method-title">Как читать цифры</h2>
+          <p class="method__note">Три оговорки, без которых расчёт вводит в заблуждение</p>
+        </div>
+        <div class="method__grid">
+          <article class="note">
+            <h3>ИМТ — это диапазон, а не приговор</h3>
+            <p>Индекс — отношение веса к квадрату роста. ВОЗ относит к норме значения 18,5–24,9. Индекс не отличает мышцы от жира: у спортсменов он бывает завышен, у пожилых — занижен.</p>
+          </article>
+          <article class="note">
+            <h3>Калории считаются по формуле</h3>
+            <p>Базовый обмен — по формуле Миффлина — Сан Жеора, дневной расход — с коэффициентом активности. Цель «худеть» снимает 15% нормы, «набирать» добавляет 10%.</p>
+            <p class="formula">BMR = 10 × вес + 6,25 × рост − 5 × возраст ± 161</p>
+          </article>
+          <article class="note">
+            <h3>Это ориентир, а не диагноз</h3>
+            <p>Реальный расход зависит от состава тела, сна, здоровья и лекарств. Если ИМТ заметно ниже 18,5 или выше 30, обсудите вес с врачом, а не только с калькулятором.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer__inner">
+      <p>Учебный проект · hexlet-vibecoding</p>
+      <p>Не заменяет консультацию врача</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
